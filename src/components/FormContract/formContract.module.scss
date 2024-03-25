@@ -1,0 +1,19 @@
+
+.containerForm{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: auto 100px auto 100px;
+
+    input{
+        width: 70% ;
+        height: 2rem;
+        border-radius: 0.5rem;
+        border: 1px solid #000;
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+    label{
+        align-self:flex-start;
+    }
+}
