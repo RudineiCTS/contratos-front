@@ -4,13 +4,15 @@ import { ChangeEvent, ReactNode, createContext, useState } from "react";
 interface ContractRentContextType {
     name: string;
     setName: (name: string) => void;
-    city: string;
-    setCity: (city: string) => void;
-    profission:string;
-    setProfission: (profission: string) => void;
-    rg:string;
-    setRG: (rg: string) => void;
+    nationality: string;
+    setNationality: (city: string) => void;
+    occupation:string;
+    setOccupation: (occupation: string) => void;
+    doc:string;
+    setDoc: (rg: string) => void;
     onChangeInputListening: (event: ChangeEvent<HTMLSpanElement>) => void;
+    typeOwner: "cpf" |"cnpj"|"mei"
+    setTypeOwner: (typeOwner: "cpf" |"cnpj"|"mei") => void;
   }
   
 
@@ -18,16 +20,17 @@ export const ContractRentContext = createContext<ContractRentContextType | undef
 
 export function ContractRentProvider({ children }: { children: ReactNode }){
     const [name, setName]= useState('')
-    const [city, setCity]= useState('')
-    const [profission, setProfission]= useState('')
-    const [rg, setRG]= useState('')
+    const [nationality, setNationality]= useState('')
+    const [occupation, setOccupation]= useState('')
+    const [doc, setDoc]= useState('')
+    const [typeOwner, setTypeOwner] = useState("cpf")
 
     const onChangeInputListening = (event: ChangeEvent<HTMLSpanElement>)=> {
         return  event
       };
 
     return (
-        <ContractRentContext.Provider value={{name, setName,city, setCity, profission, setProfission, rg, setRG, onChangeInputListening}}>
+        <ContractRentContext.Provider value={{name, setName,nationality, setNationality, occupation, setOccupation, doc, setDoc, onChangeInputListening, typeOwner:"cpf", setTypeOwner}}>
             {children}
         </ContractRentContext.Provider>
     )

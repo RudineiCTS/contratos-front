@@ -1,0 +1,35 @@
+.containerMain{
+    overflow: hidden auto;
+    justify-content: flex-start;
+
+    min-width: 0;
+    max-width: 780px; /* largura da folha A4 */
+    height: max-content;
+
+    background-color: white; /* cor de fundo da página */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* sombra
+    /* padding interno para manter o conteúdo longe das bordas */
+    padding: 0 100px;
+
+    opacity: 1;
+    align-self: flex-start;
+
+    font-family: Arial, sans-serif; /* escolha uma fonte adequada */
+    font-size: 14px; /* tamanho do texto */
+    line-height: 1.5; /* altura da linha para melhor legibilidade */
+    z-index: 2;
+    margin-top: 0;
+
+    strong{
+        font-size: 16px;
+    }
+}
+
+.titleContent{
+    padding: 80px 0;
+    text-align: center;
+}
+.strongExeption{
+    font-size: 14px;
+    font-weight: bold;
+}

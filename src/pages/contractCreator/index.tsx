@@ -11,6 +11,7 @@ function ContractCreator(){
     const nameView = useRef()
     const rgView = useRef()
     
+    
     useEffect(() =>{},[])
 
 
