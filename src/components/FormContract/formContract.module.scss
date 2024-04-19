@@ -1,3 +1,8 @@
+.main_container{
+    display: flex;
+    flex-direction: column;
+}
+
 .containerForm{
     display: flex;
     flex-direction: column;
@@ -14,6 +19,7 @@
     }
     label{
         align-self:flex-start;
+        margin-bottom: 10px;
     }
     select{
         width: 70% ;
@@ -23,6 +29,12 @@
         padding: 0 1rem;
         margin-bottom: 1.5rem;
     }
+    & .open{
+        display: none;
+    }
+}
+.containerFormOpen{
+    display: none;
 }
 
 .session{
@@ -45,3 +57,4 @@
     font: inherit;
     outline: inherit;
 }
+
