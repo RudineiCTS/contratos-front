@@ -10,16 +10,16 @@ interface SelectCompProps extends SelectHTMLAttributes<HTMLSelectElement>{
 export const SelectComp: React.FC<SelectCompProps> =({ option,changeValue, selectedValue }:SelectCompProps)=>{
     function changeValueSelected(e:any) {
         e.preventDefault();
-        console.log(selectedValue)
         changeValue(e.target.value);
+        // console.log(selectedValue)
     }
 
     return (
-        <select  onChange={(e)=>changeValueSelected(e)}>
+        <select  onChange={(e)=>changeValueSelected(e)} defaultValue={selectedValue}>
          {
              Array.isArray(option) ? (
                 option.map((item, index) => (
-                    <option key={index} {...item} defaultValue={selectedValue}>{item.value}</option>
+                    <option key={index} {...item} >{item.value}</option>
                 ))
             ) : (
                 <option {...option}>{option?.value}</option>

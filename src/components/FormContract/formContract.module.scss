@@ -57,4 +57,63 @@
     font: inherit;
     outline: inherit;
 }
+.containerButtonAndInput{
+    display: flex;
+    align-items: first baseline;
 
+    width: 100%;
+
+    button{
+        width: 6rem;
+        height: 3rem;
+        margin-left: 10px;
+    }
+    >input{
+        height: 3rem;
+
+    }   
+
+}
+.containerTwoInput{
+    display: flex;
+    align-items: center;
+
+    >div{
+        display:flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex:1;
+        
+        
+    }
+    >.contentComplemente{
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 2;
+
+        >input{
+            width: auto;
+        }
+    }
+    
+}
+
+.containerTwoInputCity{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    >div{
+        display: flex;
+        flex-direction: column;
+        flex:1
+
+    }
+    >.contentCity{
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 2;
+        >input{
+            width: 90%;
+        }
+    }
+}

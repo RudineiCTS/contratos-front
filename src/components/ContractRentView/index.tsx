@@ -4,7 +4,7 @@ import useContractRentContext from "@/hook/useContractRentContext";
 
 
 function ContractTypeRentModel() {
-   const {name, nationality, occupation, onChangeInputListening} = useContractRentContext()
+   const {name, nationality, occupation} = useContractRentContext()
 
    function useDynamicRefCallback(callback) {
       const ref = useRef(null);
