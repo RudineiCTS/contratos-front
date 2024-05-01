@@ -1,5 +1,5 @@
 export const optionsOwner: React.OptionHTMLAttributes<HTMLOptionElement>[] = [
-    { value: 'Pessoa Física (CPF)'  },
+    { value: 'Pessoa Física (CPF)'},
     { value: 'Pessoa Jurídica (CNPJ)'},
     { value: 'Microempreededor Individual (MEI)'},
 ];

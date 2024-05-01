@@ -9,7 +9,12 @@ import { optionsMaritalStatus, optionsOwner, optionsTypeDoc } from "../SelectCom
 import { InputComp } from "../InputComp";
 import { takeAddressForCep } from "@/services/api-correio";
 import removeMask from "@/utils/removeMask";
-import { PersonInfo } from "@/context/interfaceContext";
+import { OccupantInfo, PersonInfo } from "@/context/interfaceContext";
+
+import { InfoOwnerForm } from "./FormInfoOwner";
+import { DocumentOwnerForm } from "./FormDocumentOwner";
+import { CpfToOwnerOrOccupant } from "./FormCpfToOwner";
+import { Address } from "./AddressForm";
 
 
 
@@ -24,14 +29,7 @@ export default function FormContract() {
      imovelInfo,
      setImovelInfo
     } = useContractRentContext();
-    const [firstDivValue, setfirstDivValue] = useState(true);
-    const [secondDivValue, setSecondDivValue] = useState(false);
-    const [thirdDivValue, setThirdDivValue] = useState(false);
-    const [fourthDivValue, setFourthDivValue] = useState(false);
-    const [fifthDivValue, setFifthDivValue] = useState(false);
-    const [sixthDivValue, setSixthDivValue] = useState(false);
-    const [seventhDivValue, setSeventhDivValue] = useState(false);
-    const [eighthDivValue, setEighthDivValue] = useState(false);
+  
     const [ninthDivValue, setNinthDivValue] = useState(false);
     const [tenthDivValue, setTenthDivValue] = useState(false);
 
@@ -56,417 +54,102 @@ export default function FormContract() {
 
     }
 
-    function handleSetNewValueState(e){
-        console.log(e)
+    function handleAddressOccupantWithApi(e:any){
+        
+            e.preventDefault();
+            takeAddressForCep(occupantInfo.cepOccupant).then(res=> 
+                {
+                    if(!res){
+                        return
+                    }
+                    const newOwerInfoAddres: OccupantInfo = {
+                        ...occupantInfo,
+                        streetOccupant: res.logradouro,                 
+                        neighborhoodOccupant: res.bairro,
+                        cityOccupant: res.localidade,
+                        ufOccupant: res.uf
+                    }
+    
+                    setOccupantInfo(newOwerInfoAddres);
+                })
+    
     }
 
-
+    function handleSetNewValueState(key: keyof PersonInfo, value: PersonInfo[keyof PersonInfo]) {
+        const obj: PersonInfo ={
+            ...ownerInfo,
+             [key]: value
+        }
+        console.log(obj);
+        setOwnerInfo(obj);
+        // console.log(ownerInfo.typeOwner);
+    }
+    function handleSetNewValueStateOccupant(key: keyof OccupantInfo, value:OccupantInfo[keyof OccupantInfo]) {
+        const obj :OccupantInfo = {
+            ...occupantInfo,
+             [key]: value
+        }
+        console.log(obj)
+        setOccupantInfo(obj);
+    }
     return(
         <div className="main_container"> 
-            <div>
-                <div className={styles.session}> Quais são as informações do proprietário(a)?
-                    <button className={styles.buttonSession} onClick={(e)=>setfirstDivValue(!firstDivValue)}>
-                        {
-                            firstDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-
-                <div className={`${firstDivValue ? styles.containerForm : styles.containerFormOpen}`}>
-                    <label htmlFor="owner"> O proprietario é:</label>
-                    <SelectComp
-                        option={optionsOwner}
-                        selectedValue={ownerInfo.typeOwner}
-                        changeValue={handleSetNewValueState}
-                        onClick={(e)=> handleSetNewValueState(e)}
-                        value={ownerInfo.typeOwner}
-                        />
-                    
-                    {ownerInfo.typeOwner === 'cpf' ? (
-                        <>
-                        <label htmlFor="fullName">O proprietário(a) é:</label>
-                        <InputComp
-                            name="fullName"
-                            setValue={()=>{return}} />
-                            <label htmlFor="nationality"> Nacionalidade:</label>
-                            <InputComp
-                            name="nationality"
-                            setValue={()=>{return}} />
-                            <label htmlFor="occupation">Profissão:</label>
-                            <InputComp
-                            name="occupation"
-                            setValue={()=>{return}} />
-                        </>
-                    ): ownerInfo.typeOwner === 'cnpj' ? (
-                        <>
-                        <label htmlFor="companyName">Razão social:</label>
-                        <InputComp
-                         name="companyName"
-                         setValue={()=>{return}} />
-                        <label htmlFor="nameFantasy"> Nome Fantasia (opcional):</label>
-                        <InputComp
-                         name="nameFantasy"
-                         setValue={()=>{return}} />
-                        <label htmlFor="cnpj">CNPJ:</label>
-                        <InputComp
-                         name="cnpj"
-                         setValue={()=>{return}} />
-                        </>
-                    ) : (
-                        <>
-                        <label htmlFor="companyName">Nome empresarial:</label>
-                        <InputComp
-                         name="companyName"
-                         setValue={()=>{return}} />
-                        <label htmlFor="nameFantasy"> Nome fantasia (opcional):</label>
-                        <InputComp
-                         name="nameFantasy"
-                         setValue={()=>{return}} />
-                        <label htmlFor="nationality"> Nacionalidade:</label>
-                        <InputComp
-                         name="nationality"
-                         setValue={()=>{return}} />
-                        <label htmlFor="occupation">Profissão:</label>
-                        <InputComp
-                         name="occupation"
-                         setValue={()=>{return}} />
-                        </>
-                    )  }
-
-                    
-                </div>    
-
-            </div>
+           <InfoOwnerForm
+            changeValue={handleSetNewValueState}
+            ownerInfo = {ownerInfo}
+            isOwner={true}
+           />
             {/* parte2:formulario */}
-            <div>
-            <div className={styles.session}> Quais os documentos do proprietario(a)?
-                    <button className={styles.buttonSession} onClick={(e)=>{setSecondDivValue(!secondDivValue)}}>
-                        {
-                            secondDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={`${secondDivValue ? styles.containerForm : styles.containerFormOpen}`}>
-                    <label htmlFor="maritalStatus">Estado civil</label>
-                    <SelectComp
-                        name="maritalStatus"
-                        changeValue={()=>{return }}
-                        option={optionsMaritalStatus}
-                    />
-                    <label htmlFor="typeDocument"> Selecione um documento de identidade</label>
-                    <SelectComp
-                        name="typeDocument"
-                        changeValue={()=>{return }}
-                        option={optionsTypeDoc}
-                        
-                    />
-                    <label htmlFor=""> número do documento </label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: 000000000"
-                    />
-                    <label htmlFor="ogEmissor">Orgão Emissor</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="EX: SSP/SP"
-                    />
-                </div>
-            </div>
+            <DocumentOwnerForm
+                 changeValue={handleSetNewValueState}
+                 ownerInfo = {ownerInfo}
+                 isOwner={true}
+            />
             {/* terceira parte */}
-            <div>
-            <div className={styles.session}> Qual o CPF e e-mail do proprietário(a)?
-                    <button className={styles.buttonSession} onClick={(e)=>{setThirdDivValue(!thirdDivValue)}}>
-                        {
-                            thirdDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={thirdDivValue ? styles.containerForm : styles.containerFormOpen}>
-                    <label htmlFor="cpf">CPF:</label>
-                    <InputComp
-                        name="cpf"
-                        placeholder="Ex: 000.000.000-00"
-                        setValue={()=>{return}}
-                    />
-                    <label htmlFor="email">E-mail: (opcional)</label>
-                    <InputComp
-                        name="email"
-                        placeholder="Ex: email@teste.com"
-                        setValue={()=>{return}}
-                    />
-                </div>
-                    
-            </div>
+            <CpfToOwnerOrOccupant
+                changeValue={handleSetNewValueState}
+                ownerInfo={ownerInfo}
+                isOwner={true}
+            />
             {/* quarta parte */}
-            <div>
-                <div className={styles.session}> Qual endereço do proprietário(a)? 
-                    <button className={styles.buttonSession} onClick={(e)=>{setFourthDivValue(!fourthDivValue)}}>
-                        {
-                            fourthDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={fourthDivValue ? styles.containerForm : styles.containerFormOpen}>
-                    <label htmlFor="cep"> CEP:</label>
-                    <div className={styles.containerButtonAndInput}>
-
-                        <InputComp
-                            setValue={()=>{return}}
-                            placeholder="00000-000"
-                            defaultValue={ownerInfo.cep}
-                            />
-                        <button onClick={(e)=>hanldeAddressWithApi(e)}>Buscar</button>
-                    </div>
-                    <label htmlFor="">Rua:</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Rua Coronel de lalonge"
-                        defaultValue={ownerInfo.street}
-                    />
-                    <div className={styles.containerTwoInput}>
-                        <div>                        
-                            <label htmlFor="">Número</label>
-                                <InputComp
-                                setValue={()=>{return}}
-                                placeholder="Ex: 123"
-                                defaultValue={ownerInfo.numberHouse}
-                                />
-                        </div>
-                        <div   className={styles.contentComplemente}>
-                            <label htmlFor="">Complemento</label>
-                            <InputComp
-                                setValue={()=>{return}}
-                                placeholder="Ex: Apto 123"
-
-                                />
-
-                        </div>
-
-                    </div>
-                    <label htmlFor="">Bairro:</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Centro"
-                        defaultValue={ownerInfo.neighborhood}
-                    />
-                    <div className={styles.containerTwoInputCity}>
-                        <div className={styles.contentCity}>
-                            <label htmlFor="">Cidade:</label>
-                            <InputComp
-                                setValue={()=>{return}}
-                                placeholder="Ex: São Paulo"
-                                defaultValue={ownerInfo.city}
-                            />
-                        </div>
-                        <div >
-                            <label htmlFor="uf">UF</label>
-                            <InputComp
-                            setValue={()=>{return}}
-                            placeholder="SP"
-                            defaultValue={ownerInfo.uf}
-                            />
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
+            <Address
+                changeValue={handleSetNewValueState}
+                ownerInfo={ownerInfo}
+                changeValueWithApi={hanldeAddressWithApi}
+                isOwner={true}
+            />
             {/* quinta parte */}
-            <div>
-                <div className={styles.session}> Quais são as informações de quem vai alugar o imóvel?
-                    <button className={styles.buttonSession} onClick={(e)=>{setFifthDivValue(!fifthDivValue)}}>
-                        {
-                            fifthDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={fifthDivValue ? styles.containerForm : styles.containerFormOpen}>
-                    <label htmlFor="occupant">O inquilino é:</label>
-                    <SelectComp
-                        option={optionsOwner}
-                        changeValue={()=>{return}}
-                        selectedValue={occupantInfo.typeOccupant}
-
-                    />
-                    <label htmlFor="nameOccupant">Nome completo: </label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Jhon doe"
-                    />
-                    <label htmlFor="nacionalityOccupant">Nacionalidade:</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Brasileiro"
-                    />
-                    <label htmlFor="OccupationOccupant">Profissão:</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Gerente, Mecanico"
-                    />
-                </div>
-            </div> 
+          <InfoOwnerForm
+               changeValue={handleSetNewValueStateOccupant}
+               occupantInfo = {occupantInfo}
+               isOwner={false}
+          />
             {/* sexta parte */}
-            <div>
-            <div className={styles.session}> Quais os documentos de quem vai alugar o imóvel?
-                    <button className={styles.buttonSession} onClick={(e)=>{setSixthDivValue(!sixthDivValue)}}>
-                        {
-                            secondDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={`${sixthDivValue ? styles.containerForm : styles.containerFormOpen}`}>
-                    <label htmlFor="maritalStatus">Estado civil</label>
-                    <SelectComp
-                        name="maritalStatus"
-                        changeValue={()=>{return }}
-                        option={optionsMaritalStatus}
-                    />
-                    <label htmlFor="typeDocument"> Selecione um documento de identidade</label>
-                    <SelectComp
-                        name="typeDocument"
-                        changeValue={()=>{return }}
-                        option={optionsTypeDoc}
-                        
-                    />
-                    <label htmlFor=""> número do documento </label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: 000000000"
-                    />
-                    <label htmlFor="ogEmissor">Orgão Emissor</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="EX: SSP/SP"
-                    />
-                </div>
-            </div>
+            <DocumentOwnerForm
+                changeValue={handleSetNewValueStateOccupant}
+                isOwner={false}
+                occupantInfo={occupantInfo}
+
+            />
             {/* setima parte */}
-            <div>
-            <div className={styles.session}> Qual o CPF e e-mail de quem vai alugar o imóvel?
-                    <button className={styles.buttonSession} onClick={(e)=>{setSeventhDivValue(!seventhDivValue)}}>
-                        {
-                            thirdDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={seventhDivValue ? styles.containerForm : styles.containerFormOpen}>
-                    <label htmlFor="cpf">CPF:</label>
-                    <InputComp
-                        name="cpf"
-                        placeholder="Ex: 000.000.000-00"
-                        setValue={()=>{return}}
-                    />
-                    <label htmlFor="email">E-mail: (opcional)</label>
-                    <InputComp
-                        name="email"
-                        placeholder="Ex: email@teste.com"
-                        setValue={()=>{return}}
-                    />
-                </div>
-                    
-            </div>
+           <CpfToOwnerOrOccupant
+                 changeValue={handleSetNewValueStateOccupant}
+                 isOwner={false}
+                 occupantInfo={occupantInfo}
+           />
             {/* oitava parte */}
-            <div>
-                <div className={styles.session}> Qual endereço de quem vai alugar o imóvel?
-                    <button className={styles.buttonSession} onClick={(e)=>{setEighthDivValue(!eighthDivValue)}}>
-                        {
-                            fourthDivValue?
-                            <FaChevronDown color='#fff'/>
-                            :
-                            <FaChevronUp color='#fff'/>
-                        }
-                    </button>
-                </div>
-                <div className={eighthDivValue ? styles.containerForm : styles.containerFormOpen}>
-                    <label htmlFor="cep"> CEP:</label>
-                    <div className={styles.containerButtonAndInput}>
+            <Address
+                changeValue={handleSetNewValueStateOccupant}
+                changeValueWithApi={handleAddressOccupantWithApi}
+                isOwner={false}
 
-                        <InputComp
-                            setValue={()=>{return}}
-                            placeholder="00000-000"
-                            defaultValue={occupantInfo.cepOccupant}
-                            />
-                        <button onClick={(e)=>hanldeAddressWithApi(e)}>Buscar</button>
-                    </div>
-                    <label htmlFor="">Rua:</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Rua Coronel de lalonge"
-                        defaultValue={occupantInfo.streetOccupant}
-                    />
-                    <div className={styles.containerTwoInput}>
-                        <div>                        
-                            <label htmlFor="">Número</label>
-                                <InputComp
-                                setValue={()=>{return}}
-                                placeholder="Ex: 123"
-                                defaultValue={occupantInfo.numberHouseOccupant}
-                                />
-                        </div>
-                        <div   className={styles.contentComplemente}>
-                            <label htmlFor="">Complemento</label>
-                            <InputComp
-                                setValue={()=>{return}}
-                                placeholder="Ex: Apto 123"
-
-                                />
-
-                        </div>
-
-                    </div>
-                    <label htmlFor="">Bairro:</label>
-                    <InputComp
-                        setValue={()=>{return}}
-                        placeholder="Ex: Centro"
-                        defaultValue={occupantInfo.neighborhoodOccupant}
-                    />
-                    <div className={styles.containerTwoInputCity}>
-                        <div className={styles.contentCity}>
-                            <label htmlFor="">Cidade:</label>
-                            <InputComp
-                                setValue={()=>{return}}
-                                placeholder="Ex: São Paulo"
-                                defaultValue={occupantInfo.cityOccupant}
-                            />
-                        </div>
-                        <div >
-                            <label htmlFor="uf">UF</label>
-                            <InputComp
-                            setValue={()=>{return}}
-                            placeholder="SP"
-                            defaultValue={occupantInfo.ufOccupant}
-                            />
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
+            />
             {/* nona parte */}
             <div>
                 <div className={styles.session}>Qual endereço do imóvel que está sendo alugado?
                     <button className={styles.buttonSession} onClick={(e)=>{setNinthDivValue(!ninthDivValue)}}>
                         {
-                            fourthDivValue?
+                            ninthDivValue?
                             <FaChevronDown color='#fff'/>
                             :
                             <FaChevronUp color='#fff'/>
@@ -542,7 +225,7 @@ export default function FormContract() {
                 <div className={styles.session}>Detalhes do imóvel que está sendo alugado
                     <button className={styles.buttonSession} onClick={(e)=>{setTenthDivValue(!tenthDivValue)}}>
                         {
-                            fourthDivValue?
+                            tenthDivValue?
                             <FaChevronDown color='#fff'/>
                             :
                             <FaChevronUp color='#fff'/>

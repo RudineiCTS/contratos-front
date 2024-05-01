@@ -5,7 +5,7 @@ async function takeAddressForCep (props:string){
     const stringFormatted = removeMask(props)
     try {
         const address = await consultarCep(stringFormatted)
-        console.log(address)
+        // console.log(address)
         return address
         
     } catch (error) {

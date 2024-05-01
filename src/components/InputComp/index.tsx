@@ -1,13 +1,20 @@
 import { InputHTMLAttributes } from "react"
-import styles from './inputComp.module.scss'
+import { OccupantInfo, PersonInfo } from "@/context/interfaceContext"
 
 interface InputCompProps  extends InputHTMLAttributes<HTMLInputElement>{
-    setValue:(e:any)=>void;
+  setValue: 
+  |((key: keyof PersonInfo, value: string | null) => void )
+  |( (key: keyof OccupantInfo, value: OccupantInfo[keyof OccupantInfo]) => void)
 }
 
 export const InputComp: React.FC<InputCompProps> =({ setValue, ...rest }:InputCompProps)=>{
+    function setNewValue(e:any){
+      const key= e.target.name
+      const value= e.target.value
+      setValue(key, value)
+    }
     return (
-            <input {...rest} onBlur={(e)=> setValue(e.target.value)}/>
+            <input {...rest} onBlur={(e)=> setNewValue(e)}/>
   )
 
 }

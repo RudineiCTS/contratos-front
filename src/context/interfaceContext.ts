@@ -20,6 +20,7 @@ export interface  PersonInfo  {
   
   export interface OccupantInfo {
     typeOccupant:string;
+    typeDocumentOccupant:string;
     cnpjOccupant:string;
     numDocOccupant:string;
     nationalityOccupant:string;

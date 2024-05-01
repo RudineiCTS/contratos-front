@@ -7,7 +7,7 @@ import { ContractRentContextType, ImovelInfo, OccupantInfo, PersonInfo } from ".
 export const ContractRentContext = createContext<ContractRentContextType | undefined>(undefined)
 
 export function ContractRentProvider({ children }: { children: ReactNode }){
-  const [ownerInfo, setOwnerInfo] = useState<PersonInfo>({} as PersonInfo);
+  const [ownerInfo, setOwnerInfo] = useState<PersonInfo>({typeOwner:'cpf'} as PersonInfo);
   const [occupantInfo, setOccupantInfo] = useState<OccupantInfo>({} as OccupantInfo);
   const [imovelInfo, setImovelInfo] = useState<ImovelInfo>({} as ImovelInfo);
   const [description, setDescription]=useState('')
