@@ -1,21 +1,16 @@
 import styles from "./formContract.module.scss"
-import { JetBrains_Mono } from 'next/font/google'
 import '../../styles/global.scss';
 import useContractRentContext from "@/hook/useContractRentContext";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { SelectComp } from "../SelectComp";
-import { optionsMaritalStatus, optionsOwner, optionsTypeDoc } from "../SelectComp/typeSelects";
+import { useState } from "react";
 import { InputComp } from "../InputComp";
 import { takeAddressForCep } from "@/services/api-correio";
-import removeMask from "@/utils/removeMask";
 import { OccupantInfo, PersonInfo } from "@/context/interfaceContext";
 
 import { InfoOwnerForm } from "./FormInfoOwner";
 import { DocumentOwnerForm } from "./FormDocumentOwner";
 import { CpfToOwnerOrOccupant } from "./FormCpfToOwner";
 import { Address } from "./AddressForm";
-
 
 
 export default function FormContract() {
@@ -99,52 +94,44 @@ export default function FormContract() {
             ownerInfo = {ownerInfo}
             isOwner={true}
            />
-            {/* parte2:formulario */}
             <DocumentOwnerForm
                  changeValue={handleSetNewValueState}
                  ownerInfo = {ownerInfo}
                  isOwner={true}
             />
-            {/* terceira parte */}
             <CpfToOwnerOrOccupant
                 changeValue={handleSetNewValueState}
                 ownerInfo={ownerInfo}
                 isOwner={true}
             />
-            {/* quarta parte */}
             <Address
                 changeValue={handleSetNewValueState}
                 ownerInfo={ownerInfo}
                 changeValueWithApi={hanldeAddressWithApi}
                 isOwner={true}
             />
-            {/* quinta parte */}
           <InfoOwnerForm
                changeValue={handleSetNewValueStateOccupant}
                occupantInfo = {occupantInfo}
                isOwner={false}
           />
-            {/* sexta parte */}
             <DocumentOwnerForm
                 changeValue={handleSetNewValueStateOccupant}
                 isOwner={false}
                 occupantInfo={occupantInfo}
 
             />
-            {/* setima parte */}
            <CpfToOwnerOrOccupant
                  changeValue={handleSetNewValueStateOccupant}
                  isOwner={false}
                  occupantInfo={occupantInfo}
            />
-            {/* oitava parte */}
             <Address
                 changeValue={handleSetNewValueStateOccupant}
                 changeValueWithApi={handleAddressOccupantWithApi}
                 isOwner={false}
 
             />
-            {/* nona parte */}
             <div>
                 <div className={styles.session}>Qual endereço do imóvel que está sendo alugado?
                     <button className={styles.buttonSession} onClick={(e)=>{setNinthDivValue(!ninthDivValue)}}>
