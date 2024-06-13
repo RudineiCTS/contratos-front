@@ -8,16 +8,16 @@ interface LocadorViewInterface{
 }
 
 export default function index({descriptionForOwner, data}:LocadorViewInterface) {
-  const nameView = useRef()
-  const nacionalidadeView = useRef()
-  const profissaoView = useRef()
+  const nameView = useRef(null)
+  const nacionalidadeView = useRef(null)
+  const profissaoView = useRef(null)
 
 
-  useEffect(()=>{
-    if(nameView.current !== undefined){
-      nameView.current.textContent = data.name
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(nameView.current !== undefined){
+  //     nameView.current.textContent = data.name
+  //   }
+  // },[])
 
   return (
     <div>
