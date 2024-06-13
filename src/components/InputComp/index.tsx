@@ -11,7 +11,7 @@ export const InputComp: React.FC<InputCompProps> =({ setValue, ...rest }:InputCo
     function setNewValue(e:React.ChangeEvent<HTMLInputElement>){
       const key= e.target.name
       const value= e.target.value
-
+      console.log(key, value)
     }
     return (
             <input {...rest} onBlur={(e)=> setNewValue(e)}/>
