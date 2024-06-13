@@ -11,22 +11,22 @@ interface SelectCompProps extends SelectHTMLAttributes<HTMLSelectElement>{
 }
 
 export const SelectComp: React.FC<SelectCompProps> =({ option,changeValue, selectedValue, ...restSelect }:SelectCompProps)=>{
-    function changeValueSelected(e:any) {
+    function changeValueSelected(e:React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         if(e.target.value === 'Pessoa Física (CPF)')
         {
             console.log(e.target.name)
-            changeValue(e.target.name, 'cpf')
+            // changeValue(e.target.name, 'cpf')
         }else if(e.target.value === 'Pessoa Jurídica (CNPJ)'){
-            changeValue(e.target.name, 'cnpj')
+            // changeValue(e.target.name, 'cnpj')
         }else{
-            changeValue(e.target.name,'mei')
+            // changeValue(e.target.name,'mei')
         }
 
     }
 
     return (
-        <select  onChange={(e)=>changeValueSelected(e)}{...restSelect} >
+        <select  onChange={(e)=>changeValueSelected(e as any)}{...restSelect} >
          {
              Array.isArray(option) ? (
                 option.map((item, index) => (
