@@ -13,11 +13,6 @@ export default function index({descriptionForOwner, data}:LocadorViewInterface) 
   const profissaoView = useRef(null)
 
 
-  // useEffect(()=>{
-  //   if(nameView.current !== undefined){
-  //     nameView.current.textContent = data.name
-  //   }
-  // },[])
 
   return (
     <div>
