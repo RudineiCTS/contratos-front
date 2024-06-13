@@ -18,7 +18,7 @@ export default function Home() {
     </main>
 
     <section className={style.containerButton}>
-      <button onClick={()=> router.push('/login') }>começar</button>
+      <button onClick={()=> router.push('/contractCreator') }>começar</button>
     </section>
     </div>
     </>
