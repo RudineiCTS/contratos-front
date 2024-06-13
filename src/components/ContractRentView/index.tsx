@@ -63,7 +63,7 @@ function ContractTypeRentModel() {
 
              <LocadorView 
                   descriptionForOwner="LOCATÁRIO"
-
+                  data={ownerInfo}
              />
                 <br/>
                 <br/>
