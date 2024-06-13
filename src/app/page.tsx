@@ -1,6 +1,5 @@
 
 'use client'
-import Link from "next/link";
 import {useRouter} from 'next/navigation'
 import style from "./page.module.scss";
 export default function Home() {
@@ -14,7 +13,8 @@ export default function Home() {
         ao PRCONTRATOS
         </h1>
       <p>Olá! Bem-vindo à nossa plataforma. Nossa ferramenta oferece praticidade e eficiência na criação 
-      dos seus contratos, proporcionando uma experiência simplificada e ágil.</p>
+      dos seus contratos, proporcionando uma experiência simplificada e ágil.
+      teste de deploy</p>
     </main>
 
     <section className={style.containerButton}>
